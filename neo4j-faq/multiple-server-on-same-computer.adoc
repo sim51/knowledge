@@ -1,0 +1,10 @@
+==== Comment installer plusieurs Neo4j sur une même machine
+
+Ceci est tout à fait possible, la seule chose à laquelle il faut faire attention ce sont les ports ouverts par le serveur.
+Il y en a 6 en tout qu'il faut changer :
+  
+* le port HTTP pour l'API REST (et le browser) : 7474 par défaut (voir la clef `org.neo4j.server.webserver.http.port` du fichier neo4j-server.properties`)
+* le port HTTPS pour l'API REST (et le browser) : 7374 par défaut (voir la clef `org.neo4j.server.webserver.https.port` du fichier neo4j-server.properties`)
+* le port pour le backup à chaud : Le port sur lequel Neo4j écoute les instructions de backup. Par défaut celui-ci est `6362`. Celui-ci peut être changé en modifiant la clef `online_backup_server` du fichier `conf.neo4j.properties`.
+* (optionnel) le port pour se connecter à distance au shell de Neo4j (si celui est activer, non par défaut, voir les clefs `remote_shell_*` dans le fichier `neo4j.properties`).
+* (optionnel) les ports pour la communication entre les noeuds Neo4j d'un même cluster (voir les clef `ha_*` dans le fichier `neo4j.properties`) 

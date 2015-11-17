@@ -1,0 +1,131 @@
+# Language english translations for PACKAGE package
+# Copyright (C) 2015 Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2015-11-09 07:49+0100\n"
+"PO-Revision-Date: 2015-11-09 07:49+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: english\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Title ===
+#: site/knowledge/neo4j-generic-manual/backup.adoc:1
+#, no-wrap
+msgid "Sauvegarde"
+msgstr ""
+
+#. type: Title ===
+#: site/knowledge/neo4j-generic-manual/backup.adoc:3
+#, no-wrap
+msgid "Version Communautaire"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:7
+msgid ""
+"Toutes les données sont stockés dans le répertoire `data/graph.db`.  Ainsi "
+"pour effectuer une sauvegarder des données, voici la marche à suivre :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:9
+msgid "Eteindre le service Neo4j"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:10
+msgid "Sauvegarder le répertoire `data/graph.db`"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:11
+msgid "Redémarrer le service Neo4j"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:13
+msgid ""
+"Comme vous pouvez le constater, la sauvegarde ne peut se faire uniquement si "
+"le service est éteint."
+msgstr ""
+
+#. type: Title ===
+#: site/knowledge/neo4j-generic-manual/backup.adoc:14
+#, no-wrap
+msgid "Version Entreprise"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:17
+msgid ""
+"Dans sa version Entreprise, Neo4j dispose d'un outil de sauvegarde à chaud. "
+"Cet outil réalise deux actions :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:19
+msgid "une copie du répertoire `data/graph.db` dans le répertoire spécifié"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:20
+msgid "une vérification de la cohérence des données"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:22
+msgid "Voici la commande pour l'exécuter :"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-generic-manual/backup.adoc:26
+#, no-wrap
+msgid "$>bin/neo4j-backup -to BACKUP_FOLDER -host NEO4J_IP -port BACKUP_PORT\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:29
+msgid "Où :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:31
+#, no-wrap
+msgid "**BACKUP_FOLDER** : est le répertoire vers lequel la sauvegarde sera réalisée. Si celui-ci contient déjà une précédent sauvegarde, l'outil va réaliser un delta avec la base (sauvegarde incrémentale).\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:32
+#, no-wrap
+msgid "**NEO4J_HOST** : l'adresse IP de la machine Neo4j. Vu que l'utilitaire de savegarde est généralement sur la même machine que le serveur Neo4j, on utilise `localhost`\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:33
+#, no-wrap
+msgid "**BACKUP_PORT** : Le port sur lequel Neo4j écoute les instructions de savegarde. Par défaut celui-ci est `6362`. Celui-ci peut être changé en modifiant la clef `online_backup_server` du fichier `conf.neo4j.properties`.\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:35
+msgid ""
+"Même si la technique de sauvegarde peut être incrémetale, son livrable "
+"correspond toujours à l'intégralité de la base (ie. le répertoire `data/"
+"graph.db`)."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/backup.adoc:37
+msgid ""
+"Ce qui est généralement mis en place, c'est un cron qui toutes les heures "
+"vient faire la savegarde de manière incrémentale.  Puis une fois par jour, "
+"le répertoire est zippé et envoyé sur SAN/FTP/... pour une sauvegarde à long "
+"terme."
+msgstr ""

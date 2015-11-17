@@ -1,0 +1,68 @@
+== Clustering
+
+=== Fonctionnement
+
+Un cluster Neo4j est constitué à minima de 3 noeuds, avec forécemnt un unique noeud maitre et des noeuds escalves.
+
+On peut envoyer des requêtes de lecture/écriture sur tous les noeuds, toutesfois en ce qui concerne les requêtes d'écritures, celles-ci sont renvoyées au noeuds maitre : 
+c'est lui qui est le garant de la cohérence des données (rappel : Neo4j est une base ACID).
+
+Chaque noeud du cluster possède l'intégralité des données de la base de données (Neo4j ne fait de sharding sur les données)
+
+=== La configuration
+
+La configuration du cluster est simple à réaliser. 
+
+Pour ce faire, il faut editer deux fichiers :
+
+ * neo4j.properties
+ * neo4j-server.properties
+
+NOTE: Pour plus d'information, se rendre sur la documentation officielle http://neo4j.com/docs/stable/ha-setup-tutorial.html
+
+==== Le fichier neo4j.properties
+
+[source,properties]
+----
+# C'est l'identifiant du noeud, il doit être un entier unique au sein du cluster
+# De plus plus est petit, plus il aura de chance d'être élu master (l'algorithme est de prendre parmis les noeuds éligibles à devenir master, celui qui a le plus petit id)
+ha.server_id=1
+
+# L'adresse/port du noeud sur le réseau permettant d'établir la communication inter-cluster (ex: hearbeat)
+# Si l'adresse IP est 0.0.0.0,, Neo4j ecoutera sur toutes les interfaces réseaux
+ha.cluster_server=192.168.33.22:5001
+
+# L'adresse/port du noeud sur le réseau sur lequel le noeud écoute pour les log des transaction depuis le master.
+ha.server=192.168.33.22:6001
+
+# La liste des autres noeuds du cluster (ie. la liste des ha.cluster_server du cluster)
+ha.initial_hosts=192.168.33.21:5001,192.168.33.22:5001,192.168.33.23:5001
+
+# Si a true, le noeud peut être à l'initiative d'un nouveau cluster, c'est à dire devenir master
+ha.allow_init_cluster=true
+
+# OPTIONAL - Permet de spécifier que le noeud ne peut être qu'esclave.
+# Défaut : fasle
+ha.slave_only=false
+
+# OPTIONAL - Intervalle de temps de entre chaque mise à jour à partir du noeud maitre
+# Défaut : 0s
+ha.pull_interval=10s
+
+# OPTIONAL - Spécifie le nombre de noeud esclave à qui le mastr va demander de repliquer une transaction.
+# Ceci permet de s'assurer que la données est repliquée après une transaction, même si c'est réalisé de manière optimiste.
+ha.tx_push_factor=2
+----
+
+NOTE: Pour plus d'information, se rendre sur la documentation officielle http://www.neo4j.com/docs/stable/ha-configuration.html (exemple : la configuration des timeout)
+
+==== Le fichier neo4j-server.properties
+
+[source,property]
+----
+# Activer le mode cluster de Neo4j
+org.neo4j.server.database.mode=HA
+
+# Permettre au noeud d'écouter sur le réseau, pas uniquement en local
+org.neo4j.server.webserver.address=0.0.0.0
+----

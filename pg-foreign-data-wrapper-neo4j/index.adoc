@@ -1,0 +1,185 @@
+= Postgres foreign data wrapper for Neo4j
+Benoit simard <bsimard@progsima.com>
+:description: How to query Neo4j throw postgres
+:toc:
+
+== Summarry
+
+Since version 9.1, http://www.postgresql.org/[Postgreqsl] has a new SQL feature : foreign data wrapper (SQL Management of External Data). It is a standardized way of handling access to remote objects from SQL databases.
+
+In this tutorial, we will see how to implement a FDW for http://www.neo4j.org/[Neo4j] and how to use it.
+
+== Implement the neo4j foreign data wrapper
+
+To produce a FDW, there is two possibilities :
+
+  * Writing a pure postgresql extension in C
+  * Use http://multicorn.readthedocs.org/en/latest/index.html[Multicorn] extension that make FDW develompent easy by giving us a Python wrapper to implement it
+  
+For this tutorial, I have choose to use Multicorn, beacuse I prefer Python rather than C.
+
+=== Install Multicorn
+
+==== Requirements
+
+There is some Postgresql & Python requirements to use Multicorn :
+
+ * Postgresql >= 9.1
+ * Postgresql development packages
+ * Python development packages
+ * python 2.7 or >= python 3.3 as your default python with pip
+
+On a debian system, you can directly type this command :
+
+[source,bash]
+----
+$> apt-get install build-essential postgresql-server-dev-9.4 python-dev python-setuptools python-pip
+----
+
+==== Installing from source
+
+The first step is to compile and install Multicorn on our server
+
+NOTE: If you are using PG 9.1, you should use version 0.9.X version (`git checkout v0.9.3`)
+NOTE: If you are using PG 9.2, you should use version 1.0.X version (`git checkout v01.0.4`)
+
+[source,bash]
+----
+$> cd /tmp
+$> git clone git://github.com/Kozea/Multicorn.git
+$> cd Multicorn
+$> make && make install
+----
+
+When it's done, we can now enable the extension in our PG instance
+
+[source,bash]
+----
+$> su - postgres
+$> psql
+postgres=# CREATE EXTENSION multicorn;
+CREATE EXTENSION
+postgres=# \q
+----
+
+Now Multicorn is operational on our PG instance.
+
+
+=== Neo4j FWD
+
+You can find my Neo4j FDW here : https://github.com/sim51/neo4j-fwd 
+It's based on http://py2neo.org/2.0/[py2neo] for the Neo4j communication.
+
+[cols="1,7a"]
+|===
+
+| 1
+| Clone the repository
+[source,bash]
+----
+$> git clone https://github.com/sim51/neo4j-fwd
+----
+
+| 2
+| Install project dependencies : py2neo
+[source,bash]
+----
+$> pip install py2neo
+----
+
+| 3
+| Install the FDW
+[source,bash]
+----
+$> cd neo4j-fdw
+$> python setup.py install
+----
+
+|===
+
+Now, you have a Postgresql server with the Multicorn extension, and neo4j FDW.
+At this point, everything is done to use Neo4j in Postgresql !
+
+
+== How to use Neo4j Foreign Data Wrapper
+
+First step, it's to create a database for testing 
+
+[source,bash]
+----
+$> su - postgres
+$> psql
+postgres=# CREATE DATABASE fdw;
+postgres=# \connect fdw
+fdw=#
+----
+
+Now, we must define a server 
+
+[source,bash]
+----
+fdw=# CREATE SERVER multicorn_neo4j FOREIGN DATA WRAPPER multicorn
+  OPTIONS (
+      wrapper  'neo4jfdw.Neo4jForeignDataWrapper',
+      server   'localhost',
+      port     '7474',
+      user     'neo4j',
+      password 'admin'
+  );
+----
+
+We have to declare a Neo4j foreign table into Postgresql :
+
+[source,bash]
+----
+fdw=# CREATE FOREIGN TABLE neo4j_movie (
+    movie varchar
+) SERVER multicorn_neo4j OPTIONS (
+    cypher 'MATCH (n:Movie) RETURN n.title as movie'
+);
+----
+
+Now, you can do some SQL query on the **neo4j_movie** table
+[source,bash]
+----
+fdw=# SELECT * FROM neo4j_movie;
+fdw=# SELECT count(*) FROM neo4j_movie;
+fdw=# SELECT count(*) FROM neo4j_movie WHERE movie LIKE '%Matrix%';
+----
+
+== Annexe
+
+=== Some usefull links
+
+ * http://www.postgresql.org/download/linux/debian/ : How to install Postgresql 9.4 with apt
+ * https://wiki.postgresql.org/wiki/Foreign_data_wrappers : Postgresql wiki page about foreign data wrapper
+ * http://multicorn.readthedocs.org/en/latest/implementing-tutorial.html : How to write a FDW with multicorn
+ * http://leopard.in.ua/2013/09/28/postgresql-multicorn/ : Good article on how to use FDW
+ 
+=== Install postgresql 9.4 for wheezy
+
+[source,bash]
+----
+$> echo "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+$< wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+$> apt-get update 
+$> apt-get install postgresql-9.4 
+----
+
+== Cypher postgres function
+
+$>apt-get install postgresql-plpython-9.4
+
+CREATE PROCEDURAL LANGUAGE 'plpythonu';
+
+CREATE OR REPLACE FUNCTION cypher(query text, server text, port text, login text, password text) RETURNS text
+LANGUAGE plpythonu
+AS $$
+
+from py2neo import neo4j
+if login and password:
+    neo4j.authenticate(server + ":" + port, login, password)
+graph = neo4j.Graph("http://" + server + ":" + port + "/db/data/")
+return graph.cypher.stream(query)
+
+$$;

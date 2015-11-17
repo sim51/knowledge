@@ -1,0 +1,456 @@
+# French translations for PACKAGE package
+# Copyright (C) 2015 Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2015-11-09 07:49+0100\n"
+"PO-Revision-Date: 2015-11-09 07:49+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. type: Title ==
+#: site/knowledge/java-jvisualvm/index.adoc:18
+#: site/knowledge/neo4j-gatling/index.adoc:54
+#: site/knowledge/intro-to-neo4j/index.adoc:330
+#: site/knowledge/intro-to-neo4j/index.adoc:349
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:10
+#, no-wrap
+msgid "Installation"
+msgstr ""
+
+#. type: Title =
+#: site/knowledge/neo4j-gatling/index.adoc:1
+#, no-wrap
+msgid "Stresser facilement votre base Neo4j avec gatling"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:3
+#: site/knowledge/intro-to-neo4j/index.adoc:3
+msgid "Benoît Simard <benoit.simard@neotechnology.com>"
+msgstr ""
+
+#. type: Target for macro image
+#: site/knowledge/neo4j-gatling/index.adoc:4
+#, no-wrap
+msgid "assets/banner.png"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:7
+msgid ""
+"Dans cet article nous allons voir comment créer simplement des tests de "
+"performances sur Neo4j en utilisant http://gatling.io(Gatling)."
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/neo4j-gatling/index.adoc:8
+#, no-wrap
+msgid "La création des scenarii"
+msgstr ""
+
+#. type: Title ===
+#: site/knowledge/neo4j-gatling/index.adoc:10
+#: site/knowledge/intro-to-neo4j/index.adoc:21
+#: site/knowledge/intro-to-neo4j/index.adoc:110
+#, no-wrap
+msgid "Introduction"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:13
+msgid ""
+"La chose la plus fastidieuse sur les tests de monté en charge, c'est la "
+"création des scenarii qui seront utilisés lors des tests."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:16
+msgid ""
+"Lorsqu'on veut tester une application web, c'est assez simple puisque tous "
+"les outils possèdent un recorder permettant d'enregistrer vos actions de "
+"votre navigateur par l'intermédiaire d'un proxy.  Et gatling ne déroge pas à "
+"la règle !"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:18
+msgid ""
+"Mais comment faire pour une base de données ? Et bien avec le journal des "
+"requêtes pardi !"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:21
+msgid ""
+"Attention, même si cette méthode est efficace et très simple à mettre en "
+"place, généralement on préfère écrire nos scenarii de manière à ce qu'ils "
+"soient reproductibles (ie. idempotent).  Or les query-log ne le sont pas ! "
+"Et oui on ne peut faire deux fois la même requête d'insertion si celle-ci "
+"tombe sous le joug d'une contrainte d'unicité."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:23
+msgid "Bref, cette méthode est simple & rapide, mais criticable."
+msgstr ""
+
+#. type: Title ===
+#: site/knowledge/neo4j-gatling/index.adoc:24
+#, no-wrap
+msgid "Configuration de Neo4j pour le query-log"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:27
+msgid ""
+"Neo4j vous permet de logger toutes les requêtes HTTP qui lui sont envoyées. "
+"Vous pouvez retrouver la documentation ici : http://neo4j.com/docs/stable/"
+"server-configuration.html#_http_logging_configuration"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:29
+msgid "Voici la liste des actions à réaliser :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:31
+msgid "Editer le fichier `neo4j-server.properties`"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:32
+msgid "Activer ou ajouter les lignes suivantes :"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-gatling/index.adoc:37
+#, no-wrap
+msgid ""
+"org.neo4j.server.http.log.enabled=true\n"
+"org.neo4j.server.http.log.config=conf/neo4j-http-logging.xml\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:40
+msgid "Editer le fichier `neo4j-http-logging.xml`"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:47
+msgid ""
+"Remplacer la ligne pattern par celle-ci : `<pattern>%t{dd/MMM/yyyy:HH:mm:ss "
+"Z};%h;%m;%r;%replace(%replace(%replace(%requestContent){'\\\\', '\\\\\\\\'})"
+"{';', '\\\\;'}){'\"', '\\\\\"'};%s</pattern>` ** **%t{dd/MMM/yyyy:HH:mm:ss Z}"
+"** : la date de la requête ** **%h** : l'hote d'où provient la requête ** **"
+"%m** : le verbe HTTP utilisé ** **%r** : l'url de la requête ** **"
+"%replace(%replace(%requestContent){'\\', '\\\\'}){';', '\\;'}** : le contenu "
+"de la requête où on echappe les caractères '\\', ';' & '\"' ** **%s** : le "
+"code HTTP de réponse"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:49
+msgid ""
+"Si vous voulez avoir plus de détail sur ces varaibles, c'est par ici : "
+"http://logback.qos.ch/manual/layouts.html#AccessPatternLayout & http://"
+"logback.qos.ch/xref/ch/qos/logback/access/PatternLayout.html"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:51
+msgid ""
+"A présent, toutes les requêtes HTTP envoyés à Neo4j seront tracées dans un "
+"fichier selon le shema suivant : `date;hote;method;url;content;code`"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/neo4j-gatling/index.adoc:52
+#, no-wrap
+msgid "Gatling"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:57
+msgid ""
+"Vous pouvez télécharger le bundle Gatling ici : http://gatling.io/#/download"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:59
+msgid ""
+"Pour son installation, il suffit de le dézipper dans le répertoire de votre "
+"choix et d'avoir un JDK7 sur votre oridnateur."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:61
+msgid "Et c'est tout, on ne peut pas faire plus simple non ?"
+msgstr ""
+
+#. type: Title ===
+#: site/knowledge/neo4j-gatling/index.adoc:62
+#, no-wrap
+msgid "Création du scenario"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:65
+msgid ""
+"Les scenarii dans Gatling sont du code écrit en Scala avec un DSL simple à "
+"prendre en main."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:67
+msgid "Voici celui-ci que je vous propose :"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-gatling/index.adoc:71
+#, no-wrap
+msgid "package neo4j\n"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-gatling/index.adoc:74
+#, no-wrap
+msgid ""
+"import io.gatling.core.Predef._\n"
+"import io.gatling.http.Predef._\n"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-gatling/index.adoc:81
+#, no-wrap
+msgid ""
+"/**\n"
+" * Simple simulation that take the neo4j query file with this :\n"
+" * * Pattern : %t{dd/MMM/yyyy:HH:mm:ss Z};%h;%m;%r;%replace(%replace(%replace(%requestContent){'\\\\', '\\\\\\\\'}){';', '\\\\;'}){'\"', '\\\\\"'};%s\n"
+" * * Header : date;hote;method;url;content;code\n"
+" */\n"
+"class HttpLogReplaySimulation extends Simulation {\n"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-gatling/index.adoc:86
+#, no-wrap
+msgid ""
+"  val httpConf = http\n"
+"    .baseURL(\"http://localhost:7474\")\n"
+"    .acceptHeader(\"application/json, text/plain, */*\")\n"
+"    .basicAuth(\"neo4j\", \"admin\")\n"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-gatling/index.adoc:92
+#, no-wrap
+msgid ""
+"  val queryFeeder = ssv(\"http.log\").convert {\n"
+"    case (\"code\", string) => string.toInt // transform response code to an int\n"
+"    case (\"url\", string) => {\n"
+"      // we only take the uri\n"
+"      val uri :String = string.replaceFirst(\"(GET|POST|PUT|DELETE|OPTIONS) (.*) HTTP(.*)\", \"$2\")\n"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-gatling/index.adoc:100
+#, no-wrap
+msgid ""
+"      // we make serial transaction query as unique transaction query\n"
+"      uri.matches(\"/db/data/transaction.*\") match {\n"
+"        case true =>  \"/db/data/transaction/commit\"\n"
+"        case false => uri\n"
+"      }\n"
+"    }\n"
+"  }.circular\n"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-gatling/index.adoc:130
+#, no-wrap
+msgid ""
+"  val scn = scenario(\"query-log\")\n"
+"    .feed(queryFeeder)\n"
+"    .doSwitch(\"${method}\") (\n"
+"      \"GET\" -> exec(http(\"Query-log\")\n"
+"                .get(\"${url}\")\n"
+"                .body(StringBody(\"${content}\"))\n"
+"                .asJSON\n"
+"                .check(status.is(\"${code}\"))),\n"
+"      \"POST\" -> exec(http(\"Query-log\")\n"
+"        .post(\"${url}\")\n"
+"        .body(StringBody(\"${content}\"))\n"
+"        .asJSON\n"
+"        .check(status.is(\"${code}\"))),\n"
+"      \"PUT\" -> exec(http(\"Query-log\")\n"
+"        .put(\"${url}\")\n"
+"        .body(StringBody(\"${content}\"))\n"
+"        .asJSON\n"
+"        .check(status.is(\"${code}\"))),\n"
+"      \"DELETE\" -> exec(http(\"Query-log\")\n"
+"        .delete(\"${url}\")\n"
+"        .body(StringBody(\"${content}\"))\n"
+"        .asJSON\n"
+"        .check(status.is(\"${code}\"))),\n"
+"      \"OPTIONS\" -> exec(http(\"Query-log\")\n"
+"        .options(\"${url}\")\n"
+"        .body(StringBody(\"${content}\"))\n"
+"        .asJSON\n"
+"        .check(status.is(\"${code}\")))\n"
+"    )\n"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-gatling/index.adoc:139
+#, no-wrap
+msgid ""
+"  setUp(\n"
+"    scn\n"
+"      .inject(\n"
+"        rampUsers(100) over (10) // making 100 queries on 10 sec\n"
+"      )\n"
+"      .protocols(httpConf)\n"
+"  )\n"
+"}\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:142
+msgid ""
+"Pour installer ce scenario, il vous suffit d'enregistrer le code dans le "
+"fichier `HttpLogReplaySimulation.scala` dans le répertoire `$GATLING_HOME/"
+"user_files/simulations/neo4j` (créer le fichier et les répertoires)."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:144
+msgid ""
+"Son comportement est simple, il vient lire un fichier de log http, et "
+"exécute les requêtes une à une. Par contre il faut que le fichier de log :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:146
+msgid "soit dans le répertoire `$GATLING_HOME/user_files/data`"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:147
+msgid ""
+"possède en-tête le header suivant : `date;hote;method;url;content;code`. "
+"Ceci peut être fait simplement avec la commande unix sed : `sed -i -e \"1i"
+"\\date;hote;method;url;content;code\" http.log`"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:148
+msgid "ne comporte pas de ligne vide à la fin du fichier"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:152
+msgid ""
+"Il est à noter que ce scenario transforme toutes les transactions multi-"
+"requêtes en multiple transactions, et donc les rollbacks ne sont pas pris en "
+"compte.  Bref il n'est pas parfait, mais comme évoqué précécemment il est "
+"préférable de faire ses propres scenarii si vous voulez"
+msgstr ""
+
+#. type: Title ===
+#: site/knowledge/neo4j-gatling/index.adoc:153
+#, no-wrap
+msgid "Lancement des tests"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:156
+msgid ""
+"A présent, dans le répertoire `$GATLING_HOME/user_files` vous devez avoir la "
+"structure suivante :"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-gatling/index.adoc:164
+#, no-wrap
+msgid ""
+"├── data\n"
+"│   └── http.log\n"
+"└── simulations\n"
+"    └── neo4j\n"
+"        └── HttpLogReplaySimulation.scala\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:167
+msgid ""
+"Maintenant il ne vous reste plus qu'à lancer Gatling vi la commande "
+"suivante : `bin/gatling.sh`"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:169
+msgid "L'outil va vous poser trois questions :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:171
+msgid ""
+"le numéro du scenario a exécuter. Choississez celui avec le nom `neo4j."
+"HttpLogReplaySimulation`"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:172
+msgid ""
+"le nom de la simulation, celui-ci servira pour la génération du rapport. "
+"Laissez le par défaut."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:173
+msgid "La description du tir au besoin. Laissez la vide."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:175
+msgid "  Une fois ce questionnaire remplie, Gatling va exécuter son tir."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:177
+msgid ""
+"A la fin, vous obtenez un rapport en html dans le répertoire `$GATLING_HOME/"
+"results/httplogreplaysimulation-*`, contenant toutes les résultats du tests :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:179
+msgid "le nombre de requête simultanée"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:180
+msgid ""
+"les différents percentiles, avec la moyenne, le min le max et l'écart-type"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-gatling/index.adoc:181
+msgid "la distribution des temps de réponse"
+msgstr ""
+
+#. type: Target for macro image
+#: site/knowledge/neo4j-gatling/index.adoc:182
+#, no-wrap
+msgid "assets/gatling-report.png"
+msgstr ""

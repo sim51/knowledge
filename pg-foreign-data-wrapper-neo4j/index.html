@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="" ng-app="knowledge"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.2"><meta name="author" content="Benoit simard"><meta name="description" content="How to query Neo4j throw postgres"><title>Postgres foreign data wrapper for Neo4j</title><link type="text/css" rel="stylesheet" href="/dist/css/application.css" media="all"></head><body class="article"><header class="navbar navbar-inverse navbar-fixed-top" role="navigation"><div class="container-fluid"><div class="navbar-header"><a title="Home" href="/" class="navbar-brand"><img alt="Neo4j" src="/dist/assets/images/logo.png"></a></div><nav class="collapse navbar-collapse  hidden-print" ng-controller="MenuCtrl"><form class="form-search pull-right form-inline  hidden-print" role="search" action="/" method="get"><div class="form-group"><label for="search"><Recherche></Recherche></label><div class="input-append"><input type="text" placeholder="Search" class="input-large search-query" name="search" value="" id="search"><button class="btn" type="submit"><i class="fa fa-search"></i></button></div></div></form></nav></div></header><main class="container-fluid"><article class="row-fluid" itemscope="" itemtype="http://schema.org/Article"><header><h1 itemprop="name">Postgres foreign data wrapper for Neo4j</h1><div id="toc" class="toc hidden-print"><div id="toctitle">Table of Contents</div><ul class="sectlevel1"><li><a href="#_summarry">Summarry</a></li><li><a href="#_implement_the_neo4j_foreign_data_wrapper">Implement the neo4j foreign data wrapper</a><ul class="sectlevel2"><li><a href="#_install_multicorn">Install Multicorn</a></li><li><a href="#_neo4j_fwd">Neo4j FWD</a></li></ul></li><li><a href="#_how_to_use_neo4j_foreign_data_wrapper">How to use Neo4j Foreign Data Wrapper</a></li><li><a href="#_annexe">Annexe</a><ul class="sectlevel2"><li><a href="#_some_usefull_links">Some usefull links</a></li><li><a href="#_install_postgresql_9_4_for_wheezy">Install postgresql 9.4 for wheezy</a></li></ul></li><li><a href="#_cypher_postgres_function">Cypher postgres function</a></li></ul></div></header><section itemprop="articleBody"><section class="sect1"><h2 id="_summarry">Summarry</h2><div class="sectionbody"><div class="paragraph"><p>Since version 9.1, <a href="http://www.postgresql.org/">Postgreqsl</a> has a new SQL feature : foreign data wrapper (SQL Management of External Data). It is a standardized way of handling access to remote objects from SQL databases.</p></div>
+<div class="paragraph"><p>In this tutorial, we will see how to implement a FDW for <a href="http://www.neo4j.org/">Neo4j</a> and how to use it.</p></div></div></section>
+<section class="sect2"><h3 id="_implement_the_neo4j_foreign_data_wrapper">Implement the neo4j foreign data wrapper</h3><div class="paragraph"><p>To produce a FDW, there is two possibilities :</p></div>
+<div class="ulist"><ul><li><p>Writing a pure postgresql extension in C</p></li><li><p>Use <a href="http://multicorn.readthedocs.org/en/latest/index.html">Multicorn</a> extension that make FDW develompent easy by giving us a Python wrapper to implement it</p></li></ul></div>
+<div class="paragraph"><p>For this tutorial, I have choose to use Multicorn, beacuse I prefer Python rather than C.</p></div>
+<section class="sect2"><h3 id="_install_multicorn">Install Multicorn</h3><section class="sect3"><h4 id="_requirements">Requirements</h4><div class="paragraph"><p>There is some Postgresql &amp; Python requirements to use Multicorn :</p></div>
+<div class="ulist"><ul><li><p>Postgresql &gt;= 9.1</p></li><li><p>Postgresql development packages</p></li><li><p>Python development packages</p></li><li><p>python 2.7 or &gt;= python 3.3 as your default python with pip</p></li></ul></div>
+<div class="paragraph"><p>On a debian system, you can directly type this command :</p></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt; apt-get install build-essential postgresql-server-dev-9.4 python-dev python-setuptools python-pip</textarea></div></div></section>
+<section class="sect3"><h4 id="_installing_from_source">Installing from source</h4><div class="paragraph"><p>The first step is to compile and install Multicorn on our server</p></div>
+<div class="admonitionblock note"><table><tr><td class="icon"><div class="title">Note</div></td><td class="content">If you are using PG 9.1, you should use version 0.9.X version (<code>git checkout v0.9.3</code>)
+NOTE: If you are using PG 9.2, you should use version 1.0.X version (<code>git checkout v01.0.4</code>)</td></tr></table></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt; cd /tmp
+$&gt; git clone git://github.com/Kozea/Multicorn.git
+$&gt; cd Multicorn
+$&gt; make &amp;&amp; make install</textarea></div></div>
+<div class="paragraph"><p>When it&#8217;s done, we can now enable the extension in our PG instance</p></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt; su - postgres
+$&gt; psql
+postgres=# CREATE EXTENSION multicorn;
+CREATE EXTENSION
+postgres=# \q</textarea></div></div>
+<div class="paragraph"><p>Now Multicorn is operational on our PG instance.</p></div></section></section>
+<section class="sect2"><h3 id="_neo4j_fwd">Neo4j FWD</h3><div class="paragraph"><p>You can find my Neo4j FDW here : <a class="bare" href="https://github.com/sim51/neo4j-fwd">https://github.com/sim51/neo4j-fwd</a>
+It&#8217;s based on <a href="http://py2neo.org/2.0/">py2neo</a> for the Neo4j communication.</p></div>
+<table class="table table-striped frame-all grid-all spread"><colgroup><col style="width: 12%;"><col style="width: 87%;"></colgroup><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td><td class="tableblock halign-left valign-top"><div><div class="paragraph"><p>Clone the repository</p></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt; git clone https://github.com/sim51/neo4j-fwd</textarea></div></div></div></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td><td class="tableblock halign-left valign-top"><div><div class="paragraph"><p>Install project dependencies : py2neo</p></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt; pip install py2neo</textarea></div></div></div></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td><td class="tableblock halign-left valign-top"><div><div class="paragraph"><p>Install the FDW</p></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt; cd neo4j-fdw
+$&gt; python setup.py install</textarea></div></div></div></td></tr></tbody></table>
+<div class="paragraph"><p>Now, you have a Postgresql server with the Multicorn extension, and neo4j FDW.
+At this point, everything is done to use Neo4j in Postgresql !</p></div></section></section>
+<section class="sect1"><h2 id="_how_to_use_neo4j_foreign_data_wrapper">How to use Neo4j Foreign Data Wrapper</h2><div class="sectionbody"><div class="paragraph"><p>First step, it&#8217;s to create a database for testing</p></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt; su - postgres
+$&gt; psql
+postgres=# CREATE DATABASE fdw;
+postgres=# \connect fdw
+fdw=#</textarea></div></div>
+<div class="paragraph"><p>Now, we must define a server</p></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">fdw=# CREATE SERVER multicorn_neo4j FOREIGN DATA WRAPPER multicorn
+  OPTIONS (
+      wrapper  'neo4jfdw.Neo4jForeignDataWrapper',
+      server   'localhost',
+      port     '7474',
+      user     'neo4j',
+      password 'admin'
+  );</textarea></div></div>
+<div class="paragraph"><p>We have to declare a Neo4j foreign table into Postgresql :</p></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">fdw=# CREATE FOREIGN TABLE neo4j_movie (
+    movie varchar
+) SERVER multicorn_neo4j OPTIONS (
+    cypher 'MATCH (n:Movie) RETURN n.title as movie'
+);</textarea></div></div>
+<div class="paragraph"><p>Now, you can do some SQL query on the <strong>neo4j_movie</strong> table</p></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">fdw=# SELECT * FROM neo4j_movie;
+fdw=# SELECT count(*) FROM neo4j_movie;
+fdw=# SELECT count(*) FROM neo4j_movie WHERE movie LIKE '%Matrix%';</textarea></div></div></div></section>
+<section class="sect2"><h3 id="_annexe">Annexe</h3><section class="sect2"><h3 id="_some_usefull_links">Some usefull links</h3><div class="ulist"><ul><li><p><a class="bare" href="http://www.postgresql.org/download/linux/debian/">http://www.postgresql.org/download/linux/debian/</a> : How to install Postgresql 9.4 with apt</p></li><li><p><a class="bare" href="https://wiki.postgresql.org/wiki/Foreign_data_wrappers">https://wiki.postgresql.org/wiki/Foreign_data_wrappers</a> : Postgresql wiki page about foreign data wrapper</p></li><li><p><a class="bare" href="http://multicorn.readthedocs.org/en/latest/implementing-tutorial.html">http://multicorn.readthedocs.org/en/latest/implementing-tutorial.html</a> : How to write a FDW with multicorn</p></li><li><p><a class="bare" href="http://leopard.in.ua/2013/09/28/postgresql-multicorn/">http://leopard.in.ua/2013/09/28/postgresql-multicorn/</a> : Good article on how to use FDW</p></li></ul></div></section>
+<section class="sect2"><h3 id="_install_postgresql_9_4_for_wheezy">Install postgresql 9.4 for wheezy</h3><div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt; echo "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" &gt; /etc/apt/sources.list.d/pgdg.list
+$&lt; wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+$&gt; apt-get update
+$&gt; apt-get install postgresql-9.4</textarea></div></div></section></section>
+<section class="sect1"><h2 id="_cypher_postgres_function">Cypher postgres function</h2><div class="sectionbody"><div class="paragraph"><p>$&gt;apt-get install postgresql-plpython-9.4</p></div>
+<div class="paragraph"><p>CREATE PROCEDURAL LANGUAGE 'plpythonu';</p></div>
+<div class="paragraph"><p>CREATE OR REPLACE FUNCTION cypher(query text, server text, port text, login text, password text) RETURNS text
+LANGUAGE plpythonu
+AS $$</p></div>
+<div class="paragraph"><p>from py2neo import neo4j
+if login and password:
+    neo4j.authenticate(server + ":" + port, login, password)
+graph = neo4j.Graph("http://" + server + ":" + port + "/db/data/")
+return graph.cypher.stream(query)</p></div>
+<div class="paragraph"><p>$$;</p></div></div></section></section><footer><div id="footer-text">&nbsp;|&nbsp; &nbsp;|&nbsp; <strong>Updated:&nbsp;</strong><time itemprop="dateModified" datetime="2015-11-07 01:21:59 CET">2015-11-07 01:21:59 CET</time>&nbsp;|&nbsp; <strong>Author:&nbsp;</strong><span class="author" id="author">Benoit simard</span>&nbsp; <span class="email" id="email"><a href="mailto:bsimard@progsima.com">bsimard@progsima.com</a></span>&nbsp;|&nbsp; </div></footer></article></main><script src="/dist/js/knwoledge-base.doc.min.js"></script></body></html>

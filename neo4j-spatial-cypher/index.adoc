@@ -1,0 +1,119 @@
+= Neo4j spatial - cypher query 
+Benoit simard <benoit.simard@neotechnology.com>
+:description: How to make spatial query in cypher
+:toc: right
+
+== Summarry
+
+In this article we will test Neo4j spatial query, and we will see how to make some spatial query directly into cypher.
+
+== Installation
+
+NOTE: I use Neo4j 2.2.2
+
+First you must have a neo4j server on your computer. I will referenced its local path as NEO4J_HOME into the rest of my article.
+
+ * Download Neo4j spatial plugin (For 2.2 : https://github.com/neo4j-contrib/m2/blob/master/releases/org/neo4j/neo4j-spatial/0.14-neo4j-2.2.0/neo4j-spatial-0.14-neo4j-2.2.0-server-plugin.zip?raw=true)
+ * Unzip all its content into NEO4J_HOME/plugins
+ * (Re)Start your Neo4j server
+ 
+Now, if you make a query on `http://localhost:7474/db/data/ext/SpatialPlugin` (don't forget the Authorization header), you should see this :
+
+[source, bash]
+----
+$> curl 'http://localhost:7474/db/data/ext/SpatialPlugin' -X GET -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4='
+{
+  "graphdb" : {
+    "addNodesToLayer" : {
+      "extends" : "graphdb",
+      "description" : "adds many geometry nodes (about 10k-50k) to a layer, as long as the nodes contain the geometry information appropriate to this layer.",
+      "name" : "addNodesToLayer",
+      "parameters" : [ {
+        "description" : "The nodes representing geometries to add to the layer",
+        "optional" : false,
+        "name" : "nodes",
+        "type" : "nodes"
+      }, {
+        "description" : "The layer to add the nodes to.",
+        "optional" : false,
+        "name" : "layer",
+        "type" : "string"
+      } ]
+    },
+    "addEditableLayer" : {
+      "extends" : "graphdb",
+      "description" : "add a new layer specialized at storing generic geometry data in WKB",
+      "name" : "addEditableLayer",
+      "parameters" : [ {
+        "description" : "The layer to find or create.",
+        "optional" : false,
+        "name" : "layer",
+        "type" : "string"
+      }, {
+        "description" : "The format for internal representation, either WKB or WKT",
+        "optional" : false,
+        "name" : "format",
+        "type" : "string"
+      }, {
+        "description" : "The name of the node property carrying the spatial geometry info",
+        "optional" : false,
+        "name" : "nodePropertyName",
+        "type" : "string"
+      } ]
+    },
+    ...
+----
+
+This indicated to you that the plugin is well installed !
+
+== Initiate spatial plugin
+
+ * At first, we have to create a layer in wich we will put all ours spatial nodes 
+ 
+[source, bash]
+----
+$>curl -v -d '{"layer":"geom", "lat":"lat", "lon":"lon"}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/ext/SpatialPlugin/graphdb/addSimplePointLayer 
+----
+
+ * Then, we should create a Spatial index with the same name as our layer
+
+[source, bash]
+----
+$>curl -v -d '{"name":"geom", "config":{"provider":"spatial", "geometry_type":"point","lat":"lat","lon":"lon"}}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/index/node
+---- 
+
+ * Now, we can create a node with lon & lat attribute
+ 
+[source, bash]
+----
+$>curl -v -d '{"lat":60.2,"lon":15.1,"RaceName":"Parador Es Muy Caliente"}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/node
+---- 
+
+ * And put the node into our (legacy) spatial index. This will create a node into our spatial layer index with a reference to the graph node
+
+[source, bash]
+----
+$>curl -v -d '{"key":"RaceName", "value":"Parador Es Muy Caliente", "uri": "http://localhost:7474/db/data/node/4"}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/index/node/geom
+---- 
+
+
+== Make some queries
+
+ * In cypher 
+
+[source, bash]
+----
+$>curl -v -d '{"query" : "start node = node:geom('withinDistance:[60.2, 15.1, 100.0]') return node" }' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/cypher
+---- 
+
+This will give the graph node. 
+
+ * Via the 'findGeometriesWithinDistance' REST API endpoint 
+ 
+[source, bash]
+----
+$>curl -v -d '{"layer":"geom","pointX":15.1,"pointY":60.2,"distanceInKm":100.0}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/ext/SpatialPlugin/graphdb/findGeometriesWithinDistance
+---- 
+
+
+This will give the spatial node. You can check the 'id' attribut, it reference the graph node.

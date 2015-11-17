@@ -1,0 +1,171 @@
+# Language english translations for PACKAGE package
+# Copyright (C) 2015 Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2015-11-09 07:47+0100\n"
+"PO-Revision-Date: 2015-11-09 07:47+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: english\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Title ===
+#: site/customers/Formation/training-slides/production/security/security.adoc:122
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:1
+#, no-wrap
+msgid "Monitoring"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:4
+msgid "Au niveau du monitoring, il faut le faire à deux niveaux :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:6
+msgid "celui de la machine"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:7
+msgid "celui de Neo4j"
+msgstr ""
+
+#. type: Title ====
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:8
+#, no-wrap
+msgid "Monitoring de la machine"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:12
+msgid ""
+"La c'est du standard au niveau monitoring.  Voici une liste d'indicateur à "
+"surveiller :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:14
+msgid "CPU"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:15
+msgid "RAM"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:16
+msgid "I/O disque"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:17
+msgid "I/O interface réseau"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:18
+msgid "l'espace disque"
+msgstr ""
+
+#. type: Title ====
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:19
+#, no-wrap
+msgid "Monitoring Neo4j"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:23
+msgid ""
+"Neo4j met à disposition via le protocole JMX ou REST des Mbean Java (ie. des "
+"sondes dans la JVM).  La liste des MBean accessibles est présentée ici : "
+"http://neo4j.com/docs/stable/jmx-mxbeans.html."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:25
+msgid ""
+"Sur une JVM, le plus important est de monitorer le garbage collector ainsi "
+"que la consommation de la HEAP."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:27
+msgid ""
+"Dans sa version Entreprise, Neo4j s'intègre nativement avec les outils de "
+"métriques suivants :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:29
+msgid "Graphite"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:30
+msgid "Ganglia"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:32
+msgid ""
+"  NOTE: voir aussi la section sur la configuration des logs pour activer les "
+"logs du GC"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:34
+msgid ""
+"NOTE : http://www.markhneedham.com/blog/2013/10/20/neo4j-accessing-jmx-beans-"
+"via-http/"
+msgstr ""
+
+#. type: Title =====
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:35
+#, no-wrap
+msgid "Activation JMX"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:38
+msgid ""
+"Pour 'activer le monitoring JMX dans Neo4j, il suffit de décommenter les "
+"lignes suivantes dans le fichier`conf/neo4j-wrapper.conf` :"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:46
+#, no-wrap
+msgid ""
+"wrapper.java.additional=-Dcom.sun.management.jmxremote.port=3637\n"
+"wrapper.java.additional=-Dcom.sun.management.jmxremote.authenticate=true\n"
+"wrapper.java.additional=-Dcom.sun.management.jmxremote.ssl=false\n"
+"wrapper.java.additional=-Dcom.sun.management.jmxremote.password.file=conf/jmx.password\n"
+"wrapper.java.additional=-Dcom.sun.management.jmxremote.access.file=conf/jmx.access\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:49
+msgid ""
+"Attention aux droits UNIX des fichiers jmx.password & jmx.access, il faut "
+"qu'il soit en READ uniquement pour le user qui lance le serveur Neo4j."
+msgstr ""
+
+#. type: Title =====
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:50
+#, no-wrap
+msgid "Accès via HTTP"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-generic-manual/monitoring.adoc:55
+#, no-wrap
+msgid "curl -H \"Content-Type:application/json\" http://localhost:7474/db/manage/server/jmx/domain/*/*\n"
+msgstr ""

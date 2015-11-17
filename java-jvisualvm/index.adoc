@@ -1,0 +1,26 @@
+= Utiliser Jvisualvm
+Benoit Simard <benoit.simard@neotechnology.com>
+
+== Quésako ?
+
+Jvisualvm est l'outil indispensable du développeur Java pour savoir comment se comporte la JVM d'une application.
+
+Celui-ci livré de base avec un JDK et vous permet de connaitre :
+
+ * l'état de la mémoire (Heap, pergen, ... et plus avec le plugin `Visual GC`)
+ * la consommation CPU
+ * le nombre de thread et leurs états
+ * la liste des MBeans avec leur valeurs (via le plugin `VisualVM-MBeans`)
+ * ...
+
+C'est l'outil de monitoring et d'investigation de la JVM !
+
+== Installation
+
+Comme indiqué au-dessus, jvisulavm est livré nativement avec les JDKs. Toutefois sur debian, si vous utilisez le gestionnaire de paquet pour installer l'open-jdk, il vous faudra aussi installer le paquet `visualvm`.
+
+Après si vous avez configurer votre `PATH` avec le répertoire `bin` de votre JDK, vous pouvez lancer l'outil simplement l'outil avec la commande : `jvisualvm`
+
+== Utilisation en remote
+
+

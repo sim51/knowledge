@@ -1,0 +1,55 @@
+=== Monitoring
+
+Au niveau du monitoring, il faut le faire à deux niveaux :
+
+* celui de la machine
+* celui de Neo4j
+
+==== Monitoring de la machine
+
+La c'est du standard au niveau monitoring. 
+Voici une liste d'indicateur à surveiller :
+
+* CPU
+* RAM
+* I/O disque
+* I/O interface réseau
+* l'espace disque
+
+==== Monitoring Neo4j
+
+Neo4j met à disposition via le protocole JMX ou REST des Mbean Java (ie. des sondes dans la JVM). 
+La liste des MBean accessibles est présentée ici : http://neo4j.com/docs/stable/jmx-mxbeans.html. 
+
+Sur une JVM, le plus important est de monitorer le garbage collector ainsi que la consommation de la HEAP. 
+
+Dans sa version Entreprise, Neo4j s'intègre nativement avec les outils de métriques suivants :
+
+ * Graphite
+ * Ganglia 
+ 
+NOTE: voir aussi la section sur la configuration des logs pour activer les logs du GC
+
+NOTE : http://www.markhneedham.com/blog/2013/10/20/neo4j-accessing-jmx-beans-via-http/
+ 
+===== Activation JMX
+
+Pour 'activer le monitoring JMX dans Neo4j, il suffit de décommenter les lignes suivantes dans le fichier`conf/neo4j-wrapper.conf` :
+
+[source]
+----
+wrapper.java.additional=-Dcom.sun.management.jmxremote.port=3637
+wrapper.java.additional=-Dcom.sun.management.jmxremote.authenticate=true
+wrapper.java.additional=-Dcom.sun.management.jmxremote.ssl=false
+wrapper.java.additional=-Dcom.sun.management.jmxremote.password.file=conf/jmx.password
+wrapper.java.additional=-Dcom.sun.management.jmxremote.access.file=conf/jmx.access
+----
+
+NOTE: Attention aux droits UNIX des fichiers jmx.password & jmx.access, il faut qu'il soit en READ uniquement pour le user qui lance le serveur Neo4j.
+
+===== Accès via HTTP
+
+[source]
+----
+curl -H "Content-Type:application/json" http://localhost:7474/db/manage/server/jmx/domain/*/*
+----

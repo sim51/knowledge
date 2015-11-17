@@ -1,0 +1,8 @@
+=== Restauration
+
+Le processus est simple :
+
+* Éteindre le service Neo4j
+* Supprimer le contenu du répertoire `data/graph.db`
+* Copier les éléments de la sauvegarde dans le répertoire `data/graph.db`
+* Démarrer le service Neo4j

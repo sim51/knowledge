@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="" ng-app="knowledge"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.2"><title>Clustering</title><link type="text/css" rel="stylesheet" href="/dist/css/application.css" media="all"></head><body class="article"><header class="navbar navbar-inverse navbar-fixed-top" role="navigation"><div class="container-fluid"><div class="navbar-header"><a title="Home" href="/" class="navbar-brand"><img alt="Neo4j" src="/dist/assets/images/logo.png"></a></div><nav class="collapse navbar-collapse  hidden-print" ng-controller="MenuCtrl"><form class="form-search pull-right form-inline  hidden-print" role="search" action="/" method="get"><div class="form-group"><label for="search"><Recherche></Recherche></label><div class="input-append"><input type="text" placeholder="Search" class="input-large search-query" name="search" value="" id="search"><button class="btn" type="submit"><i class="fa fa-search"></i></button></div></div></form></nav></div></header><main class="container-fluid"><article class="row-fluid" itemscope="" itemtype="http://schema.org/Article"><header></header><section itemprop="articleBody"><section class="sect1"><h2 id="_clustering">Clustering</h2><div class="sectionbody"><section class="sect2"><h3 id="_fonctionnement">Fonctionnement</h3><div class="paragraph"><p>Un cluster Neo4j est constitué à minima de 3 noeuds, avec forécemnt un unique noeud maitre et des noeuds escalves.</p></div>
+<div class="paragraph"><p>On peut envoyer des requêtes de lecture/écriture sur tous les noeuds, toutesfois en ce qui concerne les requêtes d&#8217;écritures, celles-ci sont renvoyées au noeuds maitre :
+c&#8217;est lui qui est le garant de la cohérence des données (rappel : Neo4j est une base ACID).</p></div>
+<div class="paragraph"><p>Chaque noeud du cluster possède l&#8217;intégralité des données de la base de données (Neo4j ne fait de sharding sur les données)</p></div></section>
+<section class="sect2"><h3 id="_la_configuration">La configuration</h3><div class="paragraph"><p>La configuration du cluster est simple à réaliser.</p></div>
+<div class="paragraph"><p>Pour ce faire, il faut editer deux fichiers :</p></div>
+<div class="ulist"><ul><li><p>neo4j.properties</p></li><li><p>neo4j-server.properties</p></li></ul></div>
+<div class="admonitionblock note"><table><tr><td class="icon"><div class="title">Note</div></td><td class="content">Pour plus d&#8217;information, se rendre sur la documentation officielle <a class="bare" href="http://neo4j.com/docs/stable/ha-setup-tutorial.html">http://neo4j.com/docs/stable/ha-setup-tutorial.html</a></td></tr></table></div>
+<section class="sect3"><h4 id="_le_fichier_neo4j_properties">Le fichier neo4j.properties</h4><div class="listingblock"><div class="content"><textarea class="language-properties code_highlight" data-lang="properties"># C'est l'identifiant du noeud, il doit être un entier unique au sein du cluster
+# De plus plus est petit, plus il aura de chance d'être élu master (l'algorithme est de prendre parmis les noeuds éligibles à devenir master, celui qui a le plus petit id)
+ha.server_id=1
+
+# L'adresse/port du noeud sur le réseau permettant d'établir la communication inter-cluster (ex: hearbeat)
+# Si l'adresse IP est 0.0.0.0,, Neo4j ecoutera sur toutes les interfaces réseaux
+ha.cluster_server=192.168.33.22:5001
+
+# L'adresse/port du noeud sur le réseau sur lequel le noeud écoute pour les log des transaction depuis le master.
+ha.server=192.168.33.22:6001
+
+# La liste des autres noeuds du cluster (ie. la liste des ha.cluster_server du cluster)
+ha.initial_hosts=192.168.33.21:5001,192.168.33.22:5001,192.168.33.23:5001
+
+# Si a true, le noeud peut être à l'initiative d'un nouveau cluster, c'est à dire devenir master
+ha.allow_init_cluster=true
+
+# OPTIONAL - Permet de spécifier que le noeud ne peut être qu'esclave.
+# Défaut : fasle
+ha.slave_only=false
+
+# OPTIONAL - Intervalle de temps de entre chaque mise à jour à partir du noeud maitre
+# Défaut : 0s
+ha.pull_interval=10s
+
+# OPTIONAL - Spécifie le nombre de noeud esclave à qui le mastr va demander de repliquer une transaction.
+# Ceci permet de s'assurer que la données est repliquée après une transaction, même si c'est réalisé de manière optimiste.
+ha.tx_push_factor=2</textarea></div></div>
+<div class="admonitionblock note"><table><tr><td class="icon"><div class="title">Note</div></td><td class="content">Pour plus d&#8217;information, se rendre sur la documentation officielle <a class="bare" href="http://www.neo4j.com/docs/stable/ha-configuration.html">http://www.neo4j.com/docs/stable/ha-configuration.html</a> (exemple : la configuration des timeout)</td></tr></table></div></section>
+<section class="sect3"><h4 id="_le_fichier_neo4j_server_properties">Le fichier neo4j-server.properties</h4><div class="listingblock"><div class="content"><textarea class="language-property code_highlight" data-lang="property"># Activer le mode cluster de Neo4j
+org.neo4j.server.database.mode=HA
+
+# Permettre au noeud d'écouter sur le réseau, pas uniquement en local
+org.neo4j.server.webserver.address=0.0.0.0</textarea></div></div></section></section></div></section></section><footer><div id="footer-text">&nbsp;|&nbsp; &nbsp;|&nbsp; <strong>Updated:&nbsp;</strong><time itemprop="dateModified" datetime="2015-11-03 18:07:10 CET">2015-11-03 18:07:10 CET</time>&nbsp;|&nbsp; </div></footer></article></main><script src="/dist/js/knwoledge-base.doc.min.js"></script></body></html>

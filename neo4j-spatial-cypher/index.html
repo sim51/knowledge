@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="" ng-app="knowledge"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.2"><meta name="author" content="Benoit simard"><meta name="description" content="How to make spatial query in cypher"><title>Neo4j spatial - cypher query</title><link type="text/css" rel="stylesheet" href="/dist/css/application.css" media="all"></head><body class="article toc2 toc-right"><header class="navbar navbar-inverse navbar-fixed-top" role="navigation"><div class="container-fluid"><div class="navbar-header"><a title="Home" href="/" class="navbar-brand"><img alt="Neo4j" src="/dist/assets/images/logo.png"></a></div><nav class="collapse navbar-collapse  hidden-print" ng-controller="MenuCtrl"><form class="form-search pull-right form-inline  hidden-print" role="search" action="/" method="get"><div class="form-group"><label for="search"><Recherche></Recherche></label><div class="input-append"><input type="text" placeholder="Search" class="input-large search-query" name="search" value="" id="search"><button class="btn" type="submit"><i class="fa fa-search"></i></button></div></div></form></nav></div></header><main class="container-fluid"><article class="row-fluid" itemscope="" itemtype="http://schema.org/Article"><header><h1 itemprop="name">Neo4j spatial - cypher query</h1><div id="toc" class="toc2 hidden-print"><div id="toctitle">Table of Contents</div><ul class="sectlevel1"><li><a href="#_summarry">Summarry</a></li><li><a href="#_installation">Installation</a></li><li><a href="#_initiate_spatial_plugin">Initiate spatial plugin</a></li><li><a href="#_make_some_queries">Make some queries</a></li></ul></div></header><section itemprop="articleBody"><section class="sect1"><h2 id="_summarry">Summarry</h2><div class="sectionbody"><div class="paragraph"><p>In this article we will test Neo4j spatial query, and we will see how to make some spatial query directly into cypher.</p></div></div></section>
+<section class="sect1"><h2 id="_installation">Installation</h2><div class="sectionbody"><div class="admonitionblock note"><table><tr><td class="icon"><div class="title">Note</div></td><td class="content">I use Neo4j 2.2.2</td></tr></table></div>
+<div class="paragraph"><p>First you must have a neo4j server on your computer. I will referenced its local path as NEO4J_HOME into the rest of my article.</p></div>
+<div class="ulist"><ul><li><p>Download Neo4j spatial plugin (For 2.2 : <a class="bare" href="https://github.com/neo4j-contrib/m2/blob/master/releases/org/neo4j/neo4j-spatial/0.14-neo4j-2.2.0/neo4j-spatial-0.14-neo4j-2.2.0-server-plugin.zip?raw=true">https://github.com/neo4j-contrib/m2/blob/master/releases/org/neo4j/neo4j-spatial/0.14-neo4j-2.2.0/neo4j-spatial-0.14-neo4j-2.2.0-server-plugin.zip?raw=true</a>)</p></li><li><p>Unzip all its content into NEO4J_HOME/plugins</p></li><li><p>(Re)Start your Neo4j server</p></li></ul></div>
+<div class="paragraph"><p>Now, if you make a query on <code><a class="bare" href="http://localhost:7474/db/data/ext/SpatialPlugin">http://localhost:7474/db/data/ext/SpatialPlugin</a></code> (don&#8217;t forget the Authorization header), you should see this :</p></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt; curl 'http://localhost:7474/db/data/ext/SpatialPlugin' -X GET -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4='
+{
+  "graphdb" : {
+    "addNodesToLayer" : {
+      "extends" : "graphdb",
+      "description" : "adds many geometry nodes (about 10k-50k) to a layer, as long as the nodes contain the geometry information appropriate to this layer.",
+      "name" : "addNodesToLayer",
+      "parameters" : [ {
+        "description" : "The nodes representing geometries to add to the layer",
+        "optional" : false,
+        "name" : "nodes",
+        "type" : "nodes"
+      }, {
+        "description" : "The layer to add the nodes to.",
+        "optional" : false,
+        "name" : "layer",
+        "type" : "string"
+      } ]
+    },
+    "addEditableLayer" : {
+      "extends" : "graphdb",
+      "description" : "add a new layer specialized at storing generic geometry data in WKB",
+      "name" : "addEditableLayer",
+      "parameters" : [ {
+        "description" : "The layer to find or create.",
+        "optional" : false,
+        "name" : "layer",
+        "type" : "string"
+      }, {
+        "description" : "The format for internal representation, either WKB or WKT",
+        "optional" : false,
+        "name" : "format",
+        "type" : "string"
+      }, {
+        "description" : "The name of the node property carrying the spatial geometry info",
+        "optional" : false,
+        "name" : "nodePropertyName",
+        "type" : "string"
+      } ]
+    },
+    ...</textarea></div></div>
+<div class="paragraph"><p>This indicated to you that the plugin is well installed !</p></div></div></section>
+<section class="sect1"><h2 id="_initiate_spatial_plugin">Initiate spatial plugin</h2><div class="sectionbody"><div class="ulist"><ul><li><p>At first, we have to create a layer in wich we will put all ours spatial nodes</p></li></ul></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt;curl -v -d '{"layer":"geom", "lat":"lat", "lon":"lon"}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/ext/SpatialPlugin/graphdb/addSimplePointLayer</textarea></div></div>
+<div class="ulist"><ul><li><p>Then, we should create a Spatial index with the same name as our layer</p></li></ul></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt;curl -v -d '{"name":"geom", "config":{"provider":"spatial", "geometry_type":"point","lat":"lat","lon":"lon"}}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/index/node</textarea></div></div>
+<div class="ulist"><ul><li><p>Now, we can create a node with lon &amp; lat attribute</p></li></ul></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt;curl -v -d '{"lat":60.2,"lon":15.1,"RaceName":"Parador Es Muy Caliente"}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/node</textarea></div></div>
+<div class="ulist"><ul><li><p>And put the node into our (legacy) spatial index. This will create a node into our spatial layer index with a reference to the graph node</p></li></ul></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt;curl -v -d '{"key":"RaceName", "value":"Parador Es Muy Caliente", "uri": "http://localhost:7474/db/data/node/4"}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/index/node/geom</textarea></div></div></div></section>
+<section class="sect1"><h2 id="_make_some_queries">Make some queries</h2><div class="sectionbody"><div class="ulist"><ul><li><p>In cypher</p></li></ul></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt;curl -v -d '{"query" : "start node = node:geom('withinDistance:[60.2, 15.1, 100.0]') return node" }' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/cypher</textarea></div></div>
+<div class="paragraph"><p>This will give the graph node.</p></div>
+<div class="ulist"><ul><li><p>Via the 'findGeometriesWithinDistance' REST API endpoint</p></li></ul></div>
+<div class="listingblock"><div class="content"><textarea class="language-bash code_highlight" data-lang="bash">$&gt;curl -v -d '{"layer":"geom","pointX":15.1,"pointY":60.2,"distanceInKm":100.0}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/ext/SpatialPlugin/graphdb/findGeometriesWithinDistance</textarea></div></div>
+<div class="paragraph"><p>This will give the spatial node. You can check the 'id' attribut, it reference the graph node.</p></div></div></section></section><footer><div id="footer-text">&nbsp;|&nbsp; &nbsp;|&nbsp; <strong>Updated:&nbsp;</strong><time itemprop="dateModified" datetime="2015-11-05 14:39:51 CET">2015-11-05 14:39:51 CET</time>&nbsp;|&nbsp; <strong>Author:&nbsp;</strong><span class="author" id="author">Benoit simard</span>&nbsp; <span class="email" id="email"><a href="mailto:benoit.simard@neotechnology.com">benoit.simard@neotechnology.com</a></span>&nbsp;|&nbsp; </div></footer></article></main><script src="/dist/js/knwoledge-base.doc.min.js"></script></body></html>

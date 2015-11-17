@@ -1,0 +1,431 @@
+# French translations for PACKAGE package
+# Copyright (C) 2015 Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2015-11-09 07:51+0100\n"
+"PO-Revision-Date: 2015-11-09 07:51+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. type: Plain text
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:80
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:108
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:115
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:128
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:137
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:174
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:186
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:199
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:212
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:225
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:230
+#: site/customers/GDF/merge_and_acquisition/project/report/_graph.adoc:241
+#: site/customers/GDF/merge_and_acquisition/project/report/_contacts.adoc:6
+#: site/customers/GDF/merge_and_acquisition/project/report/_contacts.adoc:40
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:75
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:99
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:35
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:47
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:52
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:63
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:68
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:108
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:121
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:140
+msgid "|==="
+msgstr ""
+
+#. type: Title =
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:1
+#, no-wrap
+msgid "Postgres foreign data wrapper for Neo4j"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:3
+msgid "Benoit simard <bsimard@progsima.com>"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:6
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:6
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:6
+#, no-wrap
+msgid "Summarry"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:9
+msgid ""
+"Since version 9.1, http://www.postgresql.org/[Postgreqsl] has a new SQL "
+"feature : foreign data wrapper (SQL Management of External Data). It is a "
+"standardized way of handling access to remote objects from SQL databases."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:11
+msgid ""
+"In this tutorial, we will see how to implement a FDW for http://www.neo4j."
+"org/[Neo4j] and how to use it."
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:12
+#, no-wrap
+msgid "Implement the neo4j foreign data wrapper"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:15
+msgid "To produce a FDW, there is two possibilities :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:17
+msgid "Writing a pure postgresql extension in C"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:18
+msgid ""
+"Use http://multicorn.readthedocs.org/en/latest/index.html[Multicorn] "
+"extension that make FDW develompent easy by giving us a Python wrapper to "
+"implement it"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:20
+msgid ""
+"  For this tutorial, I have choose to use Multicorn, beacuse I prefer Python "
+"rather than C."
+msgstr ""
+
+#. type: Title ===
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:21
+#, no-wrap
+msgid "Install Multicorn"
+msgstr ""
+
+#. type: Title ====
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:23
+#, no-wrap
+msgid "Requirements"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:26
+msgid "There is some Postgresql & Python requirements to use Multicorn :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:28
+msgid "Postgresql >= 9.1"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:29
+msgid "Postgresql development packages"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:30
+msgid "Python development packages"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:31
+msgid "python 2.7 or >= python 3.3 as your default python with pip"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:33
+msgid "On a debian system, you can directly type this command :"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:37
+#, no-wrap
+msgid "$> apt-get install build-essential postgresql-server-dev-9.4 python-dev python-setuptools python-pip\n"
+msgstr ""
+
+#. type: Title ====
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:39
+#, no-wrap
+msgid "Installing from source"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:42
+msgid "The first step is to compile and install Multicorn on our server"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:45
+msgid ""
+"If you are using PG 9.1, you should use version 0.9.X version (`git checkout "
+"v0.9.3`)  NOTE: If you are using PG 9.2, you should use version 1.0.X "
+"version (`git checkout v01.0.4`)"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:52
+#, no-wrap
+msgid ""
+"$> cd /tmp\n"
+"$> git clone git://github.com/Kozea/Multicorn.git\n"
+"$> cd Multicorn\n"
+"$> make && make install\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:55
+msgid "When it's done, we can now enable the extension in our PG instance"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:63
+#, no-wrap
+msgid ""
+"$> su - postgres\n"
+"$> psql\n"
+"postgres=# CREATE EXTENSION multicorn;\n"
+"CREATE EXTENSION\n"
+"postgres=# \\q\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:66
+msgid "Now Multicorn is operational on our PG instance."
+msgstr ""
+
+#. type: Title ===
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:68
+#, no-wrap
+msgid "Neo4j FWD"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:72
+msgid ""
+"You can find my Neo4j FDW here : https://github.com/sim51/neo4j-fwd It's "
+"based on http://py2neo.org/2.0/[py2neo] for the Neo4j communication."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:78
+msgid "| 1 | Clone the repository"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:81
+#, no-wrap
+msgid "$> git clone https://github.com/sim51/neo4j-fwd\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:85
+msgid "| 2 | Install project dependencies : py2neo"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:88
+#, no-wrap
+msgid "$> pip install py2neo\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:92
+msgid "| 3 | Install the FDW"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:96
+#, no-wrap
+msgid ""
+"$> cd neo4j-fdw\n"
+"$> python setup.py install\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:102
+msgid ""
+"Now, you have a Postgresql server with the Multicorn extension, and neo4j "
+"FDW.  At this point, everything is done to use Neo4j in Postgresql !"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:104
+#, no-wrap
+msgid "How to use Neo4j Foreign Data Wrapper"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:107
+msgid "First step, it's to create a database for testing"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:115
+#, no-wrap
+msgid ""
+"$> su - postgres\n"
+"$> psql\n"
+"postgres=# CREATE DATABASE fdw;\n"
+"postgres=# \\connect fdw\n"
+"fdw=#\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:118
+msgid "Now, we must define a server"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:129
+#, no-wrap
+msgid ""
+"fdw=# CREATE SERVER multicorn_neo4j FOREIGN DATA WRAPPER multicorn\n"
+"  OPTIONS (\n"
+"      wrapper  'neo4jfdw.Neo4jForeignDataWrapper',\n"
+"      server   'localhost',\n"
+"      port     '7474',\n"
+"      user     'neo4j',\n"
+"      password 'admin'\n"
+"  );\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:132
+msgid "We have to declare a Neo4j foreign table into Postgresql :"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:140
+#, no-wrap
+msgid ""
+"fdw=# CREATE FOREIGN TABLE neo4j_movie (\n"
+"    movie varchar\n"
+") SERVER multicorn_neo4j OPTIONS (\n"
+"    cypher 'MATCH (n:Movie) RETURN n.title as movie'\n"
+");\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:143
+msgid "Now, you can do some SQL query on the **neo4j_movie** table"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:148
+#, no-wrap
+msgid ""
+"fdw=# SELECT * FROM neo4j_movie;\n"
+"fdw=# SELECT count(*) FROM neo4j_movie;\n"
+"fdw=# SELECT count(*) FROM neo4j_movie WHERE movie LIKE '%Matrix%';\n"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:150
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:113
+#, no-wrap
+msgid "Annexe"
+msgstr ""
+
+#. type: Title ===
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:152
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:141
+#, no-wrap
+msgid "Some usefull links"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:155
+msgid ""
+"http://www.postgresql.org/download/linux/debian/ : How to install Postgresql "
+"9.4 with apt"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:156
+msgid ""
+"https://wiki.postgresql.org/wiki/Foreign_data_wrappers : Postgresql wiki "
+"page about foreign data wrapper"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:157
+msgid ""
+"http://multicorn.readthedocs.org/en/latest/implementing-tutorial.html : How "
+"to write a FDW with multicorn"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:158
+msgid ""
+"http://leopard.in.ua/2013/09/28/postgresql-multicorn/ : Good article on how "
+"to use FDW"
+msgstr ""
+
+#. type: Title ===
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:159
+#, no-wrap
+msgid "Install postgresql 9.4 for wheezy"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:167
+#, no-wrap
+msgid ""
+"$> echo \"deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main\" > /etc/apt/sources.list.d/pgdg.list\n"
+"$< wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -\n"
+"$> apt-get update \n"
+"$> apt-get install postgresql-9.4 \n"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:169
+#, no-wrap
+msgid "Cypher postgres function"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:172
+msgid "$>apt-get install postgresql-plpython-9.4"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:174
+msgid "CREATE PROCEDURAL LANGUAGE 'plpythonu';"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:178
+msgid ""
+"CREATE OR REPLACE FUNCTION cypher(query text, server text, port text, login "
+"text, password text) RETURNS text LANGUAGE plpythonu AS $$"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:184
+#, no-wrap
+msgid ""
+"from py2neo import neo4j\n"
+"if login and password:\n"
+"    neo4j.authenticate(server + \":\" + port, login, password)\n"
+"graph = neo4j.Graph(\"http://\" + server + \":\" + port + \"/db/data/\")\n"
+"return graph.cypher.stream(query)\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:185
+msgid "$$;"
+msgstr ""

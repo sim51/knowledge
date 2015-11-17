@@ -1,0 +1,69 @@
+# French translations for PACKAGE package
+# Copyright (C) 2015 Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2015-11-09 07:51+0100\n"
+"PO-Revision-Date: 2015-11-09 07:51+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. type: Title ===
+#: site/knowledge/neo4j-faq/recovery-after-crash.adoc:1
+#, no-wrap
+msgid "Comment restaurer ma base après un arrêt violent (base inconsistante)"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-faq/recovery-after-crash.adoc:4
+msgid ""
+"Si un crash survient et que Neo4j ne s'est pas éteint normalement, il se "
+"peut qu'au redémarrage vous obteniez dans les log un message comme quoi "
+"votre est inconsistante."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-faq/recovery-after-crash.adoc:7
+msgid ""
+"Ceci provient du fait que les données de la base ne sont pas en conformités "
+"avec le journal des transactions.  Bref un ou plusieurs transactions n'ont "
+"pas eu le temps d'être écrite dans les données de la base."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-faq/recovery-after-crash.adoc:9
+msgid ""
+"Lorsqu'on démarre un serveur Neo4j, si celui-ci ne répond pas au bout de "
+"2min, alors le serveur s’étend automatiquement. Or l'opération de "
+"récupération peut prendre plus de temps."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-faq/recovery-after-crash.adoc:11
+msgid ""
+"Pour se soustraire à cette commande, il suffit de démarrer le serveur avec "
+"la commande suivante :"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-faq/recovery-after-crash.adoc:15
+#, no-wrap
+msgid "$>bin/neo4j start-no-wait\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-faq/recovery-after-crash.adoc:18
+msgid ""
+"L'opération de récupération peut prendre un peu de temps, et consomme "
+"également de la mémoire.  N'oubliez pas de vérifier le fichier de log `data/"
+"graph.db/messages.log` pour voir s'il n'y a pas un `OutOfMemoryException` "
+"quelque part"
+msgstr ""

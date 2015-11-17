@@ -1,0 +1,109 @@
+# Language english translations for PACKAGE package
+# Copyright (C) 2015 Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2015-11-09 07:51+0100\n"
+"PO-Revision-Date: 2015-11-09 07:51+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: english\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Plain text
+#: site/customers/Danone/README.adoc:3
+#: site/knowledge/java-jvisualvm/index.adoc:3
+msgid "Benoit Simard <benoit.simard@neotechnology.com>"
+msgstr ""
+
+#. type: Title =
+#: site/knowledge/java-jvisualvm/index.adoc:1
+#, no-wrap
+msgid "Utiliser Jvisualvm"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/java-jvisualvm/index.adoc:4
+#, no-wrap
+msgid "Quésako ?"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/java-jvisualvm/index.adoc:7
+msgid ""
+"Jvisualvm est l'outil indispensable du développeur Java pour savoir comment "
+"se comporte la JVM d'une application."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/java-jvisualvm/index.adoc:9
+msgid "Celui-ci livré de base avec un JDK et vous permet de connaitre :"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/java-jvisualvm/index.adoc:11
+msgid ""
+"l'état de la mémoire (Heap, pergen, ... et plus avec le plugin `Visual GC`)"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/java-jvisualvm/index.adoc:12
+msgid "la consommation CPU"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/java-jvisualvm/index.adoc:13
+msgid "le nombre de thread et leurs états"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/java-jvisualvm/index.adoc:14
+msgid "la liste des MBeans avec leur valeurs (via le plugin `VisualVM-MBeans`)"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/java-jvisualvm/index.adoc:15
+msgid "..."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/java-jvisualvm/index.adoc:17
+msgid "C'est l'outil de monitoring et d'investigation de la JVM !"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/java-jvisualvm/index.adoc:18
+#: site/knowledge/neo4j-gatling/index.adoc:54
+#: site/knowledge/intro-to-neo4j/index.adoc:330
+#: site/knowledge/intro-to-neo4j/index.adoc:349
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:10
+#, no-wrap
+msgid "Installation"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/java-jvisualvm/index.adoc:21
+msgid ""
+"Comme indiqué au-dessus, jvisulavm est livré nativement avec les JDKs. "
+"Toutefois sur debian, si vous utilisez le gestionnaire de paquet pour "
+"installer l'open-jdk, il vous faudra aussi installer le paquet `visualvm`."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/java-jvisualvm/index.adoc:23
+msgid ""
+"Après si vous avez configurer votre `PATH` avec le répertoire `bin` de votre "
+"JDK, vous pouvez lancer l'outil simplement l'outil avec la commande : "
+"`jvisualvm`"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/java-jvisualvm/index.adoc:24
+#, no-wrap
+msgid "Utilisation en remote"
+msgstr ""

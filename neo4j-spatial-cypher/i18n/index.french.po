@@ -1,0 +1,256 @@
+# French translations for PACKAGE package
+# Copyright (C) 2015 Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2015-11-09 07:49+0100\n"
+"PO-Revision-Date: 2015-11-09 07:49+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. type: Title ==
+#: site/knowledge/java-jvisualvm/index.adoc:18
+#: site/knowledge/neo4j-gatling/index.adoc:54
+#: site/knowledge/intro-to-neo4j/index.adoc:330
+#: site/knowledge/intro-to-neo4j/index.adoc:349
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:10
+#, no-wrap
+msgid "Installation"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/pg-foreign-data-wrapper-neo4j/index.adoc:6
+#: site/knowledge/odbc-jdbc-bridge-neo4j/index.adoc:6
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:6
+#, no-wrap
+msgid "Summarry"
+msgstr ""
+
+#. type: Title =
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:1
+#, no-wrap
+msgid "Neo4j spatial - cypher query "
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:3
+msgid "Benoit simard <benoit.simard@neotechnology.com>"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:9
+msgid ""
+"In this article we will test Neo4j spatial query, and we will see how to "
+"make some spatial query directly into cypher."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:13
+msgid "I use Neo4j 2.2.2"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:15
+msgid ""
+"First you must have a neo4j server on your computer. I will referenced its "
+"local path as NEO4J_HOME into the rest of my article."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:17
+msgid ""
+"Download Neo4j spatial plugin (For 2.2 : https://github.com/neo4j-contrib/m2/"
+"blob/master/releases/org/neo4j/neo4j-spatial/0.14-neo4j-2.2.0/neo4j-"
+"spatial-0.14-neo4j-2.2.0-server-plugin.zip?raw=true)"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:18
+msgid "Unzip all its content into NEO4J_HOME/plugins"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:19
+msgid "(Re)Start your Neo4j server"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:21
+msgid ""
+"  Now, if you make a query on `http://localhost:7474/db/data/ext/"
+"SpatialPlugin` (don't forget the Authorization header), you should see this :"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:65
+#, no-wrap
+msgid ""
+"$> curl 'http://localhost:7474/db/data/ext/SpatialPlugin' -X GET -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4='\n"
+"{\n"
+"  \"graphdb\" : {\n"
+"    \"addNodesToLayer\" : {\n"
+"      \"extends\" : \"graphdb\",\n"
+"      \"description\" : \"adds many geometry nodes (about 10k-50k) to a layer, as long as the nodes contain the geometry information appropriate to this layer.\",\n"
+"      \"name\" : \"addNodesToLayer\",\n"
+"      \"parameters\" : [ {\n"
+"        \"description\" : \"The nodes representing geometries to add to the layer\",\n"
+"        \"optional\" : false,\n"
+"        \"name\" : \"nodes\",\n"
+"        \"type\" : \"nodes\"\n"
+"      }, {\n"
+"        \"description\" : \"The layer to add the nodes to.\",\n"
+"        \"optional\" : false,\n"
+"        \"name\" : \"layer\",\n"
+"        \"type\" : \"string\"\n"
+"      } ]\n"
+"    },\n"
+"    \"addEditableLayer\" : {\n"
+"      \"extends\" : \"graphdb\",\n"
+"      \"description\" : \"add a new layer specialized at storing generic geometry data in WKB\",\n"
+"      \"name\" : \"addEditableLayer\",\n"
+"      \"parameters\" : [ {\n"
+"        \"description\" : \"The layer to find or create.\",\n"
+"        \"optional\" : false,\n"
+"        \"name\" : \"layer\",\n"
+"        \"type\" : \"string\"\n"
+"      }, {\n"
+"        \"description\" : \"The format for internal representation, either WKB or WKT\",\n"
+"        \"optional\" : false,\n"
+"        \"name\" : \"format\",\n"
+"        \"type\" : \"string\"\n"
+"      }, {\n"
+"        \"description\" : \"The name of the node property carrying the spatial geometry info\",\n"
+"        \"optional\" : false,\n"
+"        \"name\" : \"nodePropertyName\",\n"
+"        \"type\" : \"string\"\n"
+"      } ]\n"
+"    },\n"
+"    ...\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:68
+msgid "This indicated to you that the plugin is well installed !"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:69
+#, no-wrap
+msgid "Initiate spatial plugin"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:72
+msgid ""
+"At first, we have to create a layer in wich we will put all ours spatial "
+"nodes"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:76
+#, no-wrap
+msgid "$>curl -v -d '{\"layer\":\"geom\", \"lat\":\"lat\", \"lon\":\"lon\"}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/ext/SpatialPlugin/graphdb/addSimplePointLayer \n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:79
+msgid "Then, we should create a Spatial index with the same name as our layer"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:84
+#, no-wrap
+msgid ""
+"$>curl -v -d '{\"name\":\"geom\", \"config\":{\"provider\":\"spatial\", \"geometry_type\":\"point\",\"lat\":\"lat\",\"lon\":\"lon\"}}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/index/node\n"
+"---- \n"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:86
+#, no-wrap
+msgid " * Now, we can create a node with lon & lat attribute\n"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:88
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:105
+#, no-wrap
+msgid "[source, bash]\n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:91
+msgid ""
+"$>curl -v -d '{\"lat\":60.2,\"lon\":15.1,\"RaceName\":\"Parador Es Muy "
+"Caliente\"}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: "
+"application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST http://"
+"localhost:7474/db/data/node ----"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:93
+msgid ""
+"And put the node into our (legacy) spatial index. This will create a node "
+"into our spatial layer index with a reference to the graph node"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:98
+#, no-wrap
+msgid ""
+"$>curl -v -d '{\"key\":\"RaceName\", \"value\":\"Parador Es Muy Caliente\", \"uri\": \"http://localhost:7474/db/data/node/4\"}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/index/node/geom\n"
+"---- \n"
+msgstr ""
+
+#. type: Title ==
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:100
+#, no-wrap
+msgid "Make some queries"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:103
+#, no-wrap
+msgid " * In cypher \n"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:108
+msgid ""
+"$>curl -v -d '{\"query\" : \"start node = node:geom('withinDistance:[60.2, "
+"15.1, 100.0]') return node\" }' -H 'Content-Type: application/json;"
+"charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic "
+"bmVvNGo6YWRtaW4=' -X POST http://localhost:7474/db/data/cypher ----"
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:110
+msgid "This will give the graph node."
+msgstr ""
+
+#. type: Plain text
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:112
+msgid "Via the 'findGeometriesWithinDistance' REST API endpoint"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:117
+#, no-wrap
+msgid ""
+"$>curl -v -d '{\"layer\":\"geom\",\"pointX\":15.1,\"pointY\":60.2,\"distanceInKm\":100.0}' -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: Basic bmVvNGo6YWRtaW4=' -X POST  http://localhost:7474/db/data/ext/SpatialPlugin/graphdb/findGeometriesWithinDistance\n"
+"---- \n"
+msgstr ""
+
+#. type: delimited block -
+#: site/knowledge/neo4j-spatial-cypher/index.adoc:119
+#, no-wrap
+msgid "This will give the spatial node. You can check the 'id' attribut, it reference the graph node.\n"
+msgstr ""

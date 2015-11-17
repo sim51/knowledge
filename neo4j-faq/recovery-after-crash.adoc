@@ -1,0 +1,18 @@
+=== Comment restaurer ma base après un arrêt violent (base inconsistante)
+
+Si un crash survient et que Neo4j ne s'est pas éteint normalement, il se peut qu'au redémarrage vous obteniez dans les log un message comme quoi votre est inconsistante.
+
+Ceci provient du fait que les données de la base ne sont pas en conformités avec le journal des transactions. 
+Bref un ou plusieurs transactions n'ont pas eu le temps d'être écrite dans les données de la base.
+
+Lorsqu'on démarre un serveur Neo4j, si celui-ci ne répond pas au bout de 2min, alors le serveur s’étend automatiquement. Or l'opération de récupération peut prendre plus de temps.
+
+Pour se soustraire à cette commande, il suffit de démarrer le serveur avec la commande suivante :
+
+[source]
+----
+$>bin/neo4j start-no-wait
+----
+
+L'opération de récupération peut prendre un peu de temps, et consomme également de la mémoire. 
+N'oubliez pas de vérifier le fichier de log `data/graph.db/messages.log` pour voir s'il n'y a pas un `OutOfMemoryException` quelque part 
